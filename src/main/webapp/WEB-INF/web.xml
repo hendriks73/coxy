@@ -1,0 +1,15 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	      version="2.5">
+    <display-name>Coxy</display-name>
+    <description>Simple caching proxy featuring OAuth.</description>
+    <servlet>
+        <servlet-name>coxy</servlet-name>
+        <servlet-class>com.tagtraum.coxy.CoxyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>coxy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
