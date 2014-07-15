@@ -101,7 +101,7 @@ Here's an example for an appropriate NGINX configuration:
 
         location @servlet_container {
             # append $request_uri, so that we send the original URI, that hasn't been rewritten
-            proxy_pass http://localhost:8080$request_uri;
+            proxy_pass http://127.0.0.1:8080$request_uri;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
@@ -119,3 +119,14 @@ duplication.
 ## Disclaimer
 
 Coxy comes with absolutely no warranty.
+
+## Convert flat image directory to DiscogsImageCacheResolver
+ 
+    ls *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mkdir -p \2/\3/\4/\1@' | sh
+    ls *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mv & \2/\3/\4/\1/\1\5@' | sh
+
+You might want to check what is actually being done with the `| sh` first (dry-run).
+
+## Create list with flat image names
+ 
+    ls -LR /var/www/coxy/image | grep -e "\.jpeg" -e "\.png" -e "\.gif" -e "\.bmp" -e "\.jpg"
