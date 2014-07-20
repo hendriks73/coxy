@@ -84,11 +84,8 @@ Here's an example for an appropriate NGINX configuration:
 
             # redirect 404 File Not Found errors to servlet container
             error_page  404              = @servlet_container;
-        }
-
-        # make sure we tell browsers to cache images for a year
-        location ~*  \.(jpg|jpeg|png|gif|ico)$ {
-           expires 365d;
+            # make sure we tell browsers to cache images for a year
+            expires 365d;
         }
 
         # redirect server error pages to the static page /50x.html
