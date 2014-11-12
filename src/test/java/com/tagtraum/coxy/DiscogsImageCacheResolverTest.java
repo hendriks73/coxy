@@ -24,16 +24,16 @@ public class DiscogsImageCacheResolverTest {
     public void testNormalPattern() throws IOException {
         final DiscogsImageCacheResolver resolver = new DiscogsImageCacheResolver();
         resolver.setCacheBase(new File("/"));
-        final File resolvedFile = resolver.resolve("/image/R-1507297-1370212405-8548.jpeg");
-        assertEquals(new File("/image/R/15/07/R-1507297/R-1507297-1370212405-8548.jpeg"), resolvedFile);
+        final File resolvedFile = resolver.resolve("/images/R-1507297-1370212405-8548.jpeg");
+        assertEquals(new File("/images/R/15/07/R-1507297/R-1507297-1370212405-8548.jpeg"), resolvedFile);
     }
 
     @Test
     public void testShortReleaseID() throws IOException {
         final DiscogsImageCacheResolver resolver = new DiscogsImageCacheResolver();
         resolver.setCacheBase(new File("/"));
-        final File resolvedFile = resolver.resolve("/image/R-150-1370212405-8548.jpeg");
-        assertEquals(new File("/image/R/15/0/R-150/R-150-1370212405-8548.jpeg"), resolvedFile);
+        final File resolvedFile = resolver.resolve("/images/R-150-1370212405-8548.jpeg");
+        assertEquals(new File("/images/R/15/0/R-150/R-150-1370212405-8548.jpeg"), resolvedFile);
     }
 
 

@@ -35,6 +35,7 @@ public interface CacheResolver {
      *
      * @param path path info
      * @return file
+     * @throws java.io.IOException if we cannot resolve the path
      */
     File resolve(String path) throws IOException;
 

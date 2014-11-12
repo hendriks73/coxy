@@ -24,8 +24,8 @@ If you are planning on caching more than a couple of thousand files,
 you *will* want to store those files not in one directory, but a hierarchy of
 multiple nested ones. Otherwise filesystem performance will suffer.
 For Discogs images you should therefore use the `discogs` resolver, in order
-to translate a filename like `/image/R-1074891-1267544771.jpeg` to something like
-`/image/R/10/74/R-1074891/R-1074891-1267544771.jpeg`.
+to translate a filename like `/images/R-1074891-1267544771.jpeg` to something like
+`/images/R/10/74/R-1074891/R-1074891-1267544771.jpeg`.
 
 *Hint: If used in conjunction with NGINX, it makes
 sense to use a `cache.base`-path that ends with `coxy`, the name of this coxy's
@@ -49,8 +49,8 @@ possible to send requests to your server, which will be forwarded to your target
 server.
 
 E.g. if configured correctly for Discogs, a request like
-`http://localhost:8080/coxy/image/R-944131-1175701834.jpeg`
-should be forwarded to `http://api.discogs.com/image/R-944131-1175701834.jpeg`,
+`http://localhost:8080/coxy/images/R-944131-1175701834.jpeg`
+should be forwarded to `http://api.discogs.com/images/R-944131-1175701834.jpeg`,
 the response then stored in the file system under the folder specified by
 `cache.base` and ultimately returned to the user. The next request for the
 same entity should be served directly from your file system.
@@ -75,7 +75,7 @@ Here's an example for an appropriate NGINX configuration:
         location /coxy {
             # enable this rewrite rule, if you are using the discogs resolver
             # see com.tagtraum.coxy.DiscogsImageCacheResolver
-            rewrite "^/coxy(/image/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
+            rewrite "^/coxy(/images/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
 
             # if cache.base == /your/cache/base/coxy, root must be:
             root   /your/cache/base;
@@ -118,12 +118,14 @@ duplication.
 Coxy comes with absolutely no warranty.
 
 ## Convert flat image directory to DiscogsImageCacheResolver
+
+Run these commands from the directory that contains the images (note, these are not perfect...):
  
-    ls *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mkdir -p \2/\3/\4/\1@' | sh
-    ls *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mv & \2/\3/\4/\1/\1\5@' | sh
+    ls --color=none *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mkdir -p \2/\3/\4/\1@' | sh
+    ls --color=none *.jpeg | sed -e 's@\(\(.\)-\([^-]\{2\}\)\([^-]\{2\}\)[^-]*\)\(.*\)@mv & \2/\3/\4/\1/\1\5@' | sh
 
 You might want to check what is actually being done with the `| sh` first (dry-run).
 
 ## Create list with flat image names
  
-    ls -LR /var/www/coxy/image | grep -e "\.jpeg" -e "\.png" -e "\.gif" -e "\.bmp" -e "\.jpg"
+    ls -LR /var/www/coxy/images | grep -e "\.jpeg" -e "\.png" -e "\.gif" -e "\.bmp" -e "\.jpg"

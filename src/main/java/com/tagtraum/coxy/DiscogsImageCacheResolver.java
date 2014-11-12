@@ -12,25 +12,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Translates a regular path like {@code /image/R-1074891-1267544771.jpeg}
+ * <p>
+ * Translates a regular path like {@code /images/R-1074891-1267544771.jpeg}
  * to a path that attempts to limit the number of files per directory.
- * The sample path above is translated to {@code /image/R/10/74/R-1074891/R-1074891-1267544771.jpeg},
+ * The sample path above is translated to {@code /images/R/10/74/R-1074891/R-1074891-1267544771.jpeg},
  * using "R", "10", "74", and "R-1074891" as hash values.
  * When using this resolver in conjunction with NGINX (or any other static web server),
  * make sure that it also translates paths in the same way, when serving the static file from
- * the {@code cache.base}. E.g.:<br/>
+ * the {@code cache.base}. E.g.:
+ * </p>
+ * <p>
  * <code>
- * rewrite "^/coxy(/image/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
+ * rewrite "^/coxy(/images/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
  * </code>
- * <br/>
+ * </p>
+ * <p>
  * However, you still need to pass the <em>original</em> request URI to the servlet container as it
  * still needs it to request resources that are not cached yet from the target server.
+ * </p>
  *
  * @author <a href="mailto:hs@tagtraum.com">Hendrik Schreiber</a>
  */
 public class DiscogsImageCacheResolver implements CacheResolver {
 
-    private static final Pattern IMAGE_PATH_PATTERN = Pattern.compile("(/image/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)");
+    private static final Pattern IMAGE_PATH_PATTERN = Pattern.compile("(/images/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)");
     private File cacheBase;
 
     @Override
