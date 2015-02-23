@@ -31,6 +31,16 @@ public class StraightCacheResolver implements CacheResolver {
 
     @Override
     public File resolve(final String path) throws IOException {
-        return new File(cacheBase, path).getCanonicalFile();
+        // strip out everything before "images" out of something that looks like
+        // /Mkq8l7_aFIXDsTdRT07pQoubjB4=/600x600/smart/filters:strip_icc():format(jpeg):mode_rgb():quality(96)/discogs-images/A-45-1408907021-4444.jpeg.jpg
+        final int i = path.indexOf("images/");
+        if (i<0) throw new IOException("Failed to find image path: " + path);
+        String noSignaturePath = path.substring(i);
+        if (noSignaturePath.split("\\.").length == 3) {
+            // we have two file extensions,
+            // let's remove the last one
+            noSignaturePath = noSignaturePath.substring(0, noSignaturePath.lastIndexOf('.'));
+        }
+        return new File(cacheBase, noSignaturePath).getCanonicalFile();
     }
 }

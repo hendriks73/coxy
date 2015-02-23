@@ -14,8 +14,6 @@ Obviously is must be writable by the servlet container process.
 * `resolver` - determines how files are stored in the filesystem. Valid values are either `straight` or `discogs`.
 * `http.agent` - the user agent to send to Discogs, e.g. `coolapp/2.0`
 * `target.base` - the base part of the target server URL, e.g. `http://api.discogs.com` (no trailing slash!)
-* `key` - your OAuth consumer key
-* `secret` - your OAuth secret
 
 Make sure that the directory `cache.base` exists and is readable and writable
 by your servlet container.
@@ -24,8 +22,8 @@ If you are planning on caching more than a couple of thousand files,
 you *will* want to store those files not in one directory, but a hierarchy of
 multiple nested ones. Otherwise filesystem performance will suffer.
 For Discogs images you should therefore use the `discogs` resolver, in order
-to translate a filename like `/images/R-1074891-1267544771.jpeg` to something like
-`/images/R/10/74/R-1074891/R-1074891-1267544771.jpeg`.
+to translate a filename like `[signature]/discogs-images/R-1074891-1267544771.jpeg.jpg`
+to something like `/images/R/10/74/R-1074891/R-1074891-1267544771.jpeg`.
 
 *Hint: If used in conjunction with NGINX, it makes
 sense to use a `cache.base`-path that ends with `coxy`, the name of this coxy's
@@ -33,24 +31,12 @@ servlet context. E.g.: `/var/www/coxy`.
 This makes it easier to configure NGINX in a way that allows it to easily
 serve the static images.*
 
-After the system properties are set, fire up the servlet container and
-connect to it with your browser (e.g. `http://localhost:8080/coxy/index.html`, if
-installed locally). It will contain instructions about how to authorize
-your Coxy instance.
-
-On the first request, it should allow you to visit the Discogs authorization page,
-where you will have to note the authorization code (unless you did all this before,
-then Coxy will re-use the code it stored in its preferences).
-
-Then visit `http://localhost:8080/coxy/index.html` again
-(if you haven't kept the page open) and enter said authorization
-code. The system should now generate a suitable access token and it should be
-possible to send requests to your server, which will be forwarded to your target
-server.
+You should now be able to send requests to your server, which will be forwarded
+to your target server.
 
 E.g. if configured correctly for Discogs, a request like
-`http://localhost:8080/coxy/images/R-944131-1175701834.jpeg`
-should be forwarded to `http://api.discogs.com/images/R-944131-1175701834.jpeg`,
+`http://localhost:8080/coxy/[signature]/discogs-images/R-944131-1175701834.jpeg.jpg`
+should be forwarded to `http://api-img.discogs.com/[signature]/discogs-images/R-944131-1175701834.jpeg.jpg`,
 the response then stored in the file system under the folder specified by
 `cache.base` and ultimately returned to the user. The next request for the
 same entity should be served directly from your file system.
@@ -75,7 +61,7 @@ Here's an example for an appropriate NGINX configuration:
         location /coxy {
             # enable this rewrite rule, if you are using the discogs resolver
             # see com.tagtraum.coxy.DiscogsImageCacheResolver
-            rewrite "^/coxy(/images/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
+            rewrite "^/coxy/.*/discogs-(images/)((.)-([^-]{0,2})([^-]{0,2})[^-]*)(.*)(\.[^\.]*)$" /coxy/$1/$3/$4/$5/$2/$2$6 break;
 
             # if cache.base == /your/cache/base/coxy, root must be:
             root   /your/cache/base;
