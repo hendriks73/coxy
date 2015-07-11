@@ -6,8 +6,12 @@ the requested file is not already in its cache.
 
 ## Plain Installation
 
+You can find pre-built binaries in the beaTunes [Maven](http://maven.apache.org) repository at
+[https://www.beatunes.com/repo/maven2/com/tagtraum/coxy/](https://www.beatunes.com/repo/maven2/com/tagtraum/coxy/)
+
 Install the `war` file in a servlet container of your choice.
-Then make sure to set the following system properties:
+Then make sure to set the following system properties (the ones you specify
+as `-Dkey=value` for the `java` command):
 
 * `cache.base` - this is the folder where the cached files are store.
 Obviously is must be writable by the servlet container process.
