@@ -17,9 +17,9 @@ import org.scribe.model.Token;
  */
 public class DiscogsApi extends DefaultApi10a {
 
-    public static final String REQUEST_TOKEN_URL = "http://api.discogs.com/oauth/request_token";
-    public static final String ACCESS_TOKEN_URL = "http://api.discogs.com/oauth/access_token";
-    public static final String AUTHORIZATION_URL = "http://www.discogs.com/oauth/authorize?oauth_token=%s";
+    public static final String REQUEST_TOKEN_URL = "https://api.discogs.com/oauth/request_token";
+    public static final String ACCESS_TOKEN_URL = "https://api.discogs.com/oauth/access_token";
+    public static final String AUTHORIZATION_URL = "https://www.discogs.com/oauth/authorize?oauth_token=%s";
 
     @Override
     public String getRequestTokenEndpoint() {

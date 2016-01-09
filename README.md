@@ -17,7 +17,7 @@ as `-Dkey=value` for the `java` command):
 Obviously is must be writable by the servlet container process.
 * `resolver` - determines how files are stored in the filesystem. Valid values are either `straight` or `discogs`.
 * `http.agent` - the user agent to send to Discogs, e.g. `coolapp/2.0`
-* `target.base` - the base part of the target server URL, e.g. `http://api.discogs.com` (no trailing slash!)
+* `target.base` - the base part of the target server URL, e.g. `https://api.discogs.com` (no trailing slash!)
 
 Make sure that the directory `cache.base` exists and is readable and writable
 by your servlet container.
@@ -40,7 +40,7 @@ to your target server.
 
 E.g. if configured correctly for Discogs, a request like
 `http://localhost:8080/coxy/[signature]/discogs-images/R-944131-1175701834.jpeg.jpg`
-should be forwarded to `http://api-img.discogs.com/[signature]/discogs-images/R-944131-1175701834.jpeg.jpg`,
+should be forwarded to `https://api-img.discogs.com/[signature]/discogs-images/R-944131-1175701834.jpeg.jpg`,
 the response then stored in the file system under the folder specified by
 `cache.base` and ultimately returned to the user. The next request for the
 same entity should be served directly from your file system.

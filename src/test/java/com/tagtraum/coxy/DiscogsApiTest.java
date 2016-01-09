@@ -54,7 +54,7 @@ public class DiscogsApiTest {
         // Trade the Request Token and Verifier for the Access Token
         final Token accessToken = service.getAccessToken(requestToken, verifier);
 
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://api.discogs.com/image/R-944131-1175701834.jpeg");
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.discogs.com/image/R-944131-1175701834.jpeg");
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println(response.getCode() + " " + response.getMessage());
