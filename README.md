@@ -1,5 +1,7 @@
 # Coxy - a simple caching proxy for Discogs
 
+[![Build Status](https://travis-ci.org/hendriks73/coxy.svg?branch=master)](https://travis-ci.org/hendriks73/coxy)
+
 Coxy lets you pipe your image requests through a proxy server which
 issues OAuth authorized requests to the actual Discogs server, if
 the requested file is not already in its cache.
